@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class JoinUserFactory extends Factory
+class RoomUserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,7 +14,7 @@ class JoinUserFactory extends Factory
     public function definition()
     {
         return [
-            
+            //
         ];
     }
 }

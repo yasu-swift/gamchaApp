@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JoinUser extends Model
+class RoomUser extends Model
 {
     use HasFactory;
 
@@ -17,4 +17,5 @@ class JoinUser extends Model
     {
         return $this->belongsTo(\App\Models\Room::class);
     }
+
 }

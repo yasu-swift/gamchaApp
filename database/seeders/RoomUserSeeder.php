@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
-class JoinUserSeeder extends Seeder
+class RoomUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.

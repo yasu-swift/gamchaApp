@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJoinUsersTable extends Migration
+class CreateRoomUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateJoinUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('join_users', function (Blueprint $table) {
+        Schema::create('room_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('room_id')  // ルームIDで部屋に入っている人数を確認する
             ->constrained()
@@ -34,6 +34,6 @@ class CreateJoinUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('join_users');
+        Schema::dropIfExists('room_users');
     }
 }

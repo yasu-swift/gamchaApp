@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('likeGame')->nullable();  //好きなゲーム
-            $table->text('profirle')->nullValue();  //自己PR
+            $table->text('profile')->nullable();  //自己PR
             $table->string('avatar')->nullable();  //プロフィール画像
             $table->string('password');
             $table->rememberToken();
