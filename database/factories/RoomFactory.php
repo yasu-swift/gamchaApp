@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
+use App\Models\User;
 
 class RoomFactory extends Factory
 {
@@ -18,6 +20,7 @@ class RoomFactory extends Factory
         $text = $this->faker->realText(100);
 
         return [
+            'user_id' => Arr::random(Arr::pluck(User::all(), 'id')),
             'title' => $game_name[array_rand($game_name)],
             'body' => $game_action[array_rand($game_action)],
             'joinUser' => rand(1, 4),

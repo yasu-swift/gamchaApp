@@ -41,7 +41,7 @@ class RoomController extends Controller
     {
         $room = new Room($request->all());
         $room->category_id = $request->category;
-        // $room->user_id = $request->user()->id;
+        $room->user_id = $request->user()->id;
 
         // トランザクション開始
         DB::beginTransaction();
@@ -59,7 +59,8 @@ class RoomController extends Controller
         }
 
         return redirect()
-            ->route('rooms.show', $room);
+            ->route('rooms.show', $room)
+            ->with('notice', '部屋を登録しました');
     }
 
     /**
@@ -70,7 +71,8 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        //
+
+        return view('rooms.show', compact('room'));
     }
 
     /**

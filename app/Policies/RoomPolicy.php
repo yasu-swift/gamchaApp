@@ -53,7 +53,7 @@ class RoomPolicy
      */
     public function update(User $user, Room $room)
     {
-        //
+        return $user->id === $room->user_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class RoomPolicy
      */
     public function delete(User $user, Room $room)
     {
-        //
+        return $user->id === $room->user_id;
     }
 
     /**
