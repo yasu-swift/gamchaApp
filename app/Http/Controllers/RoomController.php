@@ -16,8 +16,9 @@ class RoomController extends Controller
      * @return App\Http\Requests\RoomRequest;
      */
     public function index()
-    {
-        return view('rooms.index');
+    {                
+        $rooms = Room::with('user')->latest()->paginate(8);
+        return view('rooms.index', compact('rooms'));
     }
 
     /**
