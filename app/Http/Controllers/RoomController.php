@@ -83,7 +83,8 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
-        //
+        $categories = Category::all();
+        return view('rooms.edit', compact('room', 'categories'));
     }
 
     /**
@@ -95,7 +96,30 @@ class RoomController extends Controller
      */
     public function update(RoomRequest $request, Room $room)
     {
-        //
+        if ($request->user()->cannot('update', $room)) {
+            return redirect()->route('rooms.show', $room)
+                ->withErrors('自分の部屋以外は更新できません');
+        }
+
+        $room->category_id = $request->category;
+        $room->fill($request->all());
+
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+            // 更新
+            $room->save();
+
+            // トランザクション終了(成功)
+            DB::commit();
+        } catch (\Exception $e) {
+            // トランザクション終了(失敗)
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+
+        return redirect()->route('rooms.show', $room)
+            ->with('notice', '部屋を更新しました');
     }
 
     /**
