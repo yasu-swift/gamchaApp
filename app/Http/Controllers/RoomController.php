@@ -16,7 +16,7 @@ class RoomController extends Controller
      * @return App\Http\Requests\RoomRequest;
      */
     public function index()
-    {                
+    {
         $rooms = Room::with('user')->latest()->paginate(8);
         return view('rooms.index', compact('rooms'));
     }
@@ -131,6 +131,20 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        //
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+            $room->delete();
+
+            // トランザクション終了(成功)
+            DB::commit();
+        } catch (\Exception $e) {
+            // トランザクション終了(失敗)
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+
+        return redirect()->route('rooms.index')
+            ->with('notice', '部屋を削除しました');
     }
 }
