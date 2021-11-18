@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Room;
-use Illuminate\Http\Request;
+use App\Http\Requests\RoomRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Requests\RoomRequest;
      */
     public function index()
     {
@@ -20,29 +23,50 @@ class RoomController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Requests\RoomRequest;
      */
-    public function create()
+    public function create(Category $category)
     {
-        //
+        $categories = Category::all();
+        return view('rooms.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Requests\RoomRequest;
      */
-    public function store(Request $request)
+    public function store(RoomRequest $request)
     {
-        //
+        $room = new Room($request->all());
+        $room->category_id = $request->category;
+        // $room->user_id = $request->user()->id;
+
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+            // 登録
+            // dd($room);
+            $room->save();
+
+            // トランザクション終了(成功)
+            DB::commit();
+        } catch (\Exception $e) {
+            // トランザクション終了(失敗)
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+
+        return redirect()
+            ->route('rooms.show', $room);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Requests\RoomRequest;
      */
     public function show(Room $room)
     {
@@ -53,7 +77,7 @@ class RoomController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Requests\RoomRequest;
      */
     public function edit(Room $room)
     {
@@ -65,9 +89,9 @@ class RoomController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Requests\RoomRequest;
      */
-    public function update(Request $request, Room $room)
+    public function update(RoomRequest $request, Room $room)
     {
         //
     }
@@ -76,7 +100,7 @@ class RoomController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Room  $room
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Requests\RoomRequest;
      */
     public function destroy(Room $room)
     {

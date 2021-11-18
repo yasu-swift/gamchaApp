@@ -17,7 +17,11 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->string('title'); //タイトル
             $table->text('body')->nullable();  //詳細
-            $table->integer('joinUser');   //入出者
+            // $table->foreignId('user_id')
+            //     ->constrained()
+            //     ->cascadeOnUpdate()
+            //     ->cascadeOnDelete();
+            $table->integer('joinUser')->nullable();   //入出者
             $table->integer('userLimit');  //ユーザー上限
             $table->foreignId('category_id')  // カテゴリー
                 ->constrained()

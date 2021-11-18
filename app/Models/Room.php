@@ -9,6 +9,14 @@ class Room extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'body',
+        'category_id',
+        'userLimit',
+    ];
+
+
     public function categories()
     {
         return $this->belongsTo(\App\Models\Category::class);
