@@ -29,10 +29,17 @@
 
         <!-- Page Content -->
         <main>
-            {{ $slot }}
+            @yield('content')
+
+            {{-- コメントアウトして試し中 --}}
+            {{ $slot ?? '' }}
+
         </main>
     </div>
     @yield('js')
 </body>
+@section('js')
+<script src="{{ asset('js/comment.js') }}"></script>
+@endsection
 
 </html>

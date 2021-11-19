@@ -94,7 +94,7 @@ class RoomController extends Controller
         DB::beginTransaction();
         try {
             // 登録
-            // dd($room);
+            dd($room);
             $room->save();
 
             // トランザクション終了(成功)
@@ -118,8 +118,14 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        $comments = Comment::all();
-        $comments = $room->comments()->latest()->get()->load(['user']);
+
+        $room->load('user');
+        // dd($room->user);
+        $comments = $room->
+        comments()->
+        // latest()->
+        get();
+        // load('user');
         return view('rooms.show', compact('room', 'comments'));
     }
 

@@ -6,6 +6,8 @@ use App\Models\Comment;
 use App\Models\Room;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Break_;
 
 class CommentController extends Controller
 {
@@ -25,7 +27,7 @@ class CommentController extends Controller
         $json = ["comments" => $comments];
         return response()->json($json);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -57,18 +59,40 @@ class CommentController extends Controller
      */
     public function create(Room $room)
     {
-        //
+        return view('comments.create', compact('post'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *  @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function store(CommentRequest $request)
+    public function store(CommentRequest $request, Room $room)
     {
-        //
+        $comment = new Comment($request->all());
+        $comment->name = $request->user()->name;
+        $comment->user_id = $request->user()->id;
+        $comment->room_id = $room->id;
+
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+            // dd($comment);
+            // 登録
+            $room->comments()->save($comment);
+
+            // トランザクション終了(成功)
+            DB::commit();
+        } catch (\Exception $e) {
+            // トランザクション終了(失敗)
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+        return redirect()
+            ->route('rooms.show', $room)
+            ->with('notice', 'コメントを登録しました');
     }
 
     /**
@@ -108,11 +132,32 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Models\Post  $post
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(CommentRequest $request, Room $room, Comment $comment)
     {
-        //
+        if ($request->user()->cannot('update', $comment)) {
+            return redirect()->route('posts.show', $comment)
+            ->withErrors('自分の記事以外は削除できません');
+        }
+        
+        // dd($comment);
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+            $comment->delete();
+
+            // トランザクション終了(成功)
+            DB::commit();
+        } catch (\Exception $e) {   
+            // トランザクション終了(失敗)
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+
+        return redirect()->route('rooms.show', $room)
+            ->with('notice', 'コメントを削除しました');
     }
 }

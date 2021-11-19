@@ -1,4 +1,5 @@
 <x-app-layout>
+    
     <link href="{{ asset('css/view.css') }}" rel="stylesheet">
     <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-8 px-8 py-4 bg-white shadow-md">
         <x-flash-message :message="session('notice')" />
@@ -21,6 +22,7 @@
         </article>
         <div class="flex flex-row text-center my-4">
             @can('update', $room)
+            
                 <a href="{{ route('rooms.edit', $room) }}"
                     class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">編集</a>
             @endcan
@@ -35,16 +37,16 @@
 
         </div>
 
-        @auth
+        {{-- @auth
             <hr class="my-4">
 
             <div class="flex justify-end">
                 <a href="{{ route('rooms.comments.create', $room) }}"
                     class="bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline block">コメント登録</a>
             </div>
-        @endauth
+        @endauth --}}
         {{-- コメント部分 --}}
-        @extends('layouts.app')
+        {{-- @extends('layouts.app')
 
         @section('content')
             <div class="chat-container row justify-content-center">
@@ -69,18 +71,59 @@
                 <div class="comment-container row justify-content-center">
                     <div class="input-group comment-area">
                         <textarea class="form-control" id="comment" name="comment"
-                            placeholder="push massage (shift + Enter)" aria-label="With textarea"
+                            placeholder="push massage (shift Enter)" aria-label="With textarea"
                             onkeydown="if(event.shiftKey&&event.keyCode==13){document.getElementById('submit').click();return false};"></textarea>
                         <button type="submit" id="submit" class="btn btn-outline-primary comment-btn">Submit</button>
                     </div>
                 </div>
             </form>
 
-        @endsection
+        @endsection --}}
 
         {{-- コメントここまで --}}
+
+        {{-- コメント2 --}}
+        <section class="font-sans break-normal text-gray-900 ">
+            @foreach ($comments as $comment)
+            {{-- {{ dd($comment) }} --}}
+                <div class="my-2">
+                    {{-- {{ dd($user) }} --}}
+                    <span class="font-bold mr-3">{{ $comment->name }}</span>
+                    <span class="text-sm">{{ $comment->created_at }}</span>
+                    <p>{!! nl2br(e($comment->body)) !!}</p>
+                    <div class="flex justify-end text-center">
+                        {{-- @can('update', $comment)
+                            <a href="{{ route('rooms.comments.edit', [$room, $comment]) }}"
+                                class="text-sm bg-green-400 hover:bg-green-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-20 mr-2">編集</a>
+                        @endcan --}}
+                        @can('delete', $comment)
+                            <form action="{{ route('rooms.comments.destroy', [$room, $comment]) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};"
+                                    class="text-sm bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-20">
+                            </form>
+                        @endcan
+                    </div>
+                </div>
+                <hr>
+            @endforeach
+        </section>
+        <form action="{{ route('rooms.comments.store', $room) }}" method="POST" class="rounded pt-3 pb-8 mb-4">
+            @csrf
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm mb-2" for="body">
+                    コメント
+                </label>
+                <textarea name="body" rows="1"
+                    class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full py-2 px-3"
+                    required placeholder="本文">{{ old('body') }}</textarea>
+            </div>
+            <input type="submit" value="登録"
+                class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        </form>
     </div>
-    @section('js')
+    {{-- @section('js')
         <script src="{{ asset('js/comment.js') }}"></script>
-    @endsection
+    @endsection --}}
 </x-app-layout>

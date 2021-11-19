@@ -10,7 +10,8 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'name', 'comment'
+        'body',
+        'name'
     ];
 
     protected $guarded = [
