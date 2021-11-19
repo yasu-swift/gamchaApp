@@ -41,4 +41,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function comments()
+    {
+        return $this->hasMany(\App\Models\Comment::class);
+    }
+
+    public function joinUsers()
+    {
+        return $this->hasMany(\App\Models\JoinUser::class);
+    }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
 }

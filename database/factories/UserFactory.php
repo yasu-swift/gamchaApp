@@ -14,10 +14,16 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $game_name = ['ファイナルファンタジー', 'ドラクエ', 'Minecraft', 'Fortnite', 'リターナル', 'ディスガイア', 'ポケモン', '天稲のサクナヒメ', 'モンスターハンター', '麻雀', 'マインスイーパー', 'ピンボール', 'スマブラ', 'マリオカート'];
+        $file = $this->faker->image();
+        $fileName = basename($file);
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'likeGame' => $game_name[array_rand($game_name)],
+            'profile' => $this->faker->realText(100),
+            'avatar' => $fileName,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
