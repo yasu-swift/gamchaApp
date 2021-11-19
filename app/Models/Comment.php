@@ -9,6 +9,14 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id', 'name', 'comment'
+    ];
+
+    protected $guarded = [
+        'create_at', 'update_at'
+    ];
+
     public function users()
     {
         return $this->belongsTo(\App\Models\User::class);

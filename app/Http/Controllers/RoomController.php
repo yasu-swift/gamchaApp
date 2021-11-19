@@ -7,9 +7,55 @@ use App\Models\Room;
 use App\Http\Requests\RoomRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function getData()
+    {
+        $comments = Comment::orderBy('created_at', 'desc')->get();
+        $json = ["comments" => $comments];
+        return response()->json($json);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    // public function index()
+    // {
+    //     $comments = Comment::get();
+    //     return view('rooms.show', ['comments' => $comments]);
+    // }
+
+    public function add(RoomRequest $request)
+    {
+        $user = Auth::user();
+        $comment = $request->input('comment');
+        Comment::create([
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'comment' => $comment
+        ]);
+        return redirect()->route('home');
+    }
+
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -72,8 +118,9 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-
-        return view('rooms.show', compact('room'));
+        $comments = Comment::all();
+        $comments = $room->comments()->latest()->get()->load(['user']);
+        return view('rooms.show', compact('room', 'comments'));
     }
 
     /**
@@ -84,8 +131,9 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
+        $comments = Comment::get();
         $categories = Category::all();
-        return view('rooms.edit', compact('room', 'categories'));
+        return view('rooms.edit', compact('room', 'categories'), ['comments' => $comments]);
     }
 
     /**

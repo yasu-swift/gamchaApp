@@ -1,4 +1,5 @@
 <x-app-layout>
+    <link href="{{ asset('css/view.css') }}" rel="stylesheet">
     <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-8 px-8 py-4 bg-white shadow-md">
         <x-flash-message :message="session('notice')" />
         <x-validation-errors :errors="$errors" />
@@ -31,6 +32,55 @@
                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20">
                 </form>
             @endcan
+
         </div>
+
+        @auth
+            <hr class="my-4">
+
+            <div class="flex justify-end">
+                <a href="{{ route('rooms.comments.create', $room) }}"
+                    class="bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline block">コメント登録</a>
+            </div>
+        @endauth
+        {{-- コメント部分 --}}
+        @extends('layouts.app')
+
+        @section('content')
+            <div class="chat-container row justify-content-center">
+                <div class="chat-area">
+                    <div class="card">
+                        <div class="card-header">Comment</div>
+                        <div class="card-body chat-card">
+                            <div id="comment-data"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body chat-card">
+                @foreach ($comments as $item)
+                    @include('components.comment', ['item' => $item])
+                @endforeach
+            </div>
+
+            <form method="POST" action="{{ route('add') }}">
+                @csrf
+                <div class="comment-container row justify-content-center">
+                    <div class="input-group comment-area">
+                        <textarea class="form-control" id="comment" name="comment"
+                            placeholder="push massage (shift + Enter)" aria-label="With textarea"
+                            onkeydown="if(event.shiftKey&&event.keyCode==13){document.getElementById('submit').click();return false};"></textarea>
+                        <button type="submit" id="submit" class="btn btn-outline-primary comment-btn">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+        @endsection
+
+        {{-- コメントここまで --}}
     </div>
+    @section('js')
+        <script src="{{ asset('js/comment.js') }}"></script>
+    @endsection
 </x-app-layout>

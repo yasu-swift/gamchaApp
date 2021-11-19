@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\CommentController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,17 @@ use App\Http\Controllers\RoomController;
 |
 */
 
+//API
+Auth::routes();
+
+Route::get('/result/ajax', 'RoomController@getData');
+
+Route::get('/room', 'RoomController@index')->name('room');
+
+Route::post('/add', 'RoomController@add')->name('add');
+
 Route::get('/', [RoomController::class, 'index'])
-    ->name('root');
+->name('root');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,4 +39,8 @@ Route::resource('rooms', RoomController::class)
 Route::resource('rooms', RoomController::class)
 ->only(['show', 'index']);
 
-require __DIR__.'/auth.php';
+Route::resource('rooms.comments', CommentController::class)
+->only(['create', 'store', 'edit', 'update', 'destroy', 'add'])
+->middleware('auth');
+
+require __DIR__ . '/auth.php';
