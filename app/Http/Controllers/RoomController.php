@@ -94,7 +94,7 @@ class RoomController extends Controller
         DB::beginTransaction();
         try {
             // 登録
-            dd($room);
+            // dd($room);
             $room->save();
 
             // トランザクション終了(成功)

@@ -36,6 +36,8 @@ Route::resource('rooms.comments', CommentController::class)
 ->only(['create', 'store', 'edit', 'update', 'destroy'])
 ->middleware('auth');
 
+
+
 //API
 // Auth::routes();
 

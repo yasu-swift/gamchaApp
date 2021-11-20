@@ -1,0 +1,44 @@
+### index
+GET /api/rooms HTTP/1.1
+Host: localhost
+Accept: application/json
+
+### store
+POST /api/rooms
+Host: localhost
+Accept: application/json
+content-type: application/json
+
+{
+    "title": "エアマックス 95",
+    "body": "1995年のランニングマックスモデル。",
+    "joinUser": 2,
+    "category_id": 5,
+    "userLimit": 4,
+}
+
+
+### show
+GET /api/rooms/1 HTTP/1.1
+Host: localhost
+Accept: application/json
+
+
+### update
+PUT /api/rooms/1
+Host: localhost
+Accept: application/json
+content-type: application/json
+
+{
+        "title": "靴です",
+    "body": "2021年発売の靴です。",
+    "category_id": 9,
+    "userLimit": 8,
+}
+
+
+### destroy
+DELETE /api/rooms/2 HTTP/1.1
+Host: localhost
+Accept: application/json
