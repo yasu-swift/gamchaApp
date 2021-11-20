@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
+use App\Models\Room;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -15,7 +17,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::get();
+        return $comments;
     }
 
     /**
@@ -24,32 +27,29 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CommentRequest $request)
+    public function store(CommentRequest $request, Room $room)
     {
-        //
-    }
+        $comment = new Comment($request->all());
+        $comment->name = $request->user()->name;
+        $comment->user_id = $request->user()->id;
+        // $comment->room_id = $request->room_id;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+            // return $comment;
+            // 登録
+            $room->comments()->save($comment);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(CommentRequest $request, $id)
-    {
-        //
+            // トランザクション終了(成功)
+            DB::commit();
+        } catch (\Exception $e) {
+            // トランザクション終了(失敗)
+            DB::rollback();
+            return $e->getMessage();
+        }
+        return $comment;
     }
 
     /**
@@ -58,8 +58,22 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CommentRequest $request, Room $room, Comment $comment)
     {
-        //
+        // dd($comment);
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+            $comment->delete();
+
+            // トランザクション終了(成功)
+            DB::commit();
+        } catch (\Exception $e) {
+            // トランザクション終了(失敗)
+            DB::rollback();
+            return back()->withInput()->withErrors($e->getMessage());
+        }
+
+        return $comment;
     }
 }

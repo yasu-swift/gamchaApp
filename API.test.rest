@@ -2,39 +2,43 @@
 GET /api/rooms HTTP/1.1
 Host: localhost
 Accept: application/json
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
 
 ### store
 POST /api/rooms
 Host: localhost
 Accept: application/json
 content-type: application/json
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
 
 {
     "title": "エアマックス 95",
     "body": "1995年のランニングマックスモデル。",
     "joinUser": 2,
     "category_id": 5,
-    "userLimit": 4,
+    "userLimit": 4
 }
 
 
 ### show
-GET /api/rooms/1 HTTP/1.1
+GET /api/rooms/3 HTTP/1.1
 Host: localhost
 Accept: application/json
-
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
 
 ### update
-PUT /api/rooms/1
+PUT /api/rooms/3
 Host: localhost
 Accept: application/json
 content-type: application/json
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
 
 {
-        "title": "靴です",
+    "title": "靴です",
     "body": "2021年発売の靴です。",
+    "joinUser": 1,
     "category_id": 9,
-    "userLimit": 8,
+    "userLimit": 8
 }
 
 
@@ -42,3 +46,4 @@ content-type: application/json
 DELETE /api/rooms/2 HTTP/1.1
 Host: localhost
 Accept: application/json
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV

@@ -1,0 +1,29 @@
+### register
+POST /api/register
+Host: localhost
+Accept: application/json
+content-type: application/json
+
+{
+    "name": "ccc",
+    "email": "ccc@ccc",
+    "password": "password"
+}
+
+### login
+POST /api/login
+Host: localhost
+Accept: application/json
+content-type: application/json
+
+{
+    "email": "ccc@ccc",
+    "password": "password"
+}
+
+### getUser
+GET /api/user
+Host: localhost
+Accept: application/json
+content-type: application/json
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV

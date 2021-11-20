@@ -1,0 +1,23 @@
+### index
+GET /api/rooms/4/comments HTTP/1.1
+Host: localhost
+Accept: application/json
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
+
+### store
+POST /api/rooms/6/comments
+Host: localhost
+Accept: application/json
+content-type: application/json
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
+
+{
+    "body": "コメントしてます",
+    "room_id": ""
+}
+
+### destroy
+DELETE /api/rooms/4/comments/11 HTTP/1.1
+Host: localhost
+Accept: application/json
+Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV

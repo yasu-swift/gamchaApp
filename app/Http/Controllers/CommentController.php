@@ -74,12 +74,12 @@ class CommentController extends Controller
         $comment = new Comment($request->all());
         $comment->name = $request->user()->name;
         $comment->user_id = $request->user()->id;
-        $comment->room_id = $room->id;
-
+        // $comment->room_id = $request->room_id;
+        // dd($request->comment->room_id);
+        
         // トランザクション開始
         DB::beginTransaction();
         try {
-            // dd($comment);
             // 登録
             $room->comments()->save($comment);
 
