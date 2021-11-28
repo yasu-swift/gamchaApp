@@ -17,9 +17,25 @@
 //     setTimeout("get_data()", 5000);
 // }
 
+$(window).on('load',function(){
+    let target = document.getElementById('scroll-inner');
+    target.scrollIntoView(false);
+    get_data();
+});
 
+window.onload = function() {
+  var aH = window.innerHeight / 2;
+  var mH = $('#messages').outerHeight();
+  if (mH<aH) {
+    var offset = $('#messages').offset({top:aH-mH});
+  } else {
+    $('#hoge').animate({scrollTop: $('#hoge')[0].scrollHeight}, 'fast');
+  }
+}
 
 $(function() {
+    let target = document.getElementById('scroll-inner');
+    target.scrollIntoView(false);
     get_data();
 });
 
@@ -48,10 +64,10 @@ function get_data() {
                 $("#comment-data").append(html);
             }
         },
-        error: () => {
-            alert("ajax Error");
-        }
+        // error: () => {
+        //     alert("ajax Error");
+        // }
     });
 
-    setTimeout("get_data()", 5000);
+    setTimeout("get_data()", 100000000);
 }

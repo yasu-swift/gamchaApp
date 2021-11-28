@@ -10,20 +10,20 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'body',
-        'name'
+        'body'
+        // 'name'
     ];
 
     protected $guarded = [
         'create_at', 'update_at'
     ];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
-    public function rooms()
+    public function room()
     {
-        return $this->belongsTo(\App\Models\Room::class);
+        return $this->belongsTo(Room::class);
     }
 }

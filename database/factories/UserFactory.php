@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class UserFactory extends Factory
 {
@@ -17,6 +19,10 @@ class UserFactory extends Factory
         $game_name = ['ファイナルファンタジー', 'ドラクエ', 'Minecraft', 'Fortnite', 'リターナル', 'ディスガイア', 'ポケモン', '天稲のサクナヒメ', 'モンスターハンター', '麻雀', 'マインスイーパー', 'ピンボール', 'スマブラ', 'マリオカート'];
         $file = $this->faker->image();
         $fileName = basename($file);
+
+
+        Storage::putFileAs('images/users', $file, $fileName);
+        File::delete($_FILES);
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),

@@ -2,21 +2,22 @@
 GET /api/rooms HTTP/1.1
 Host: localhost
 Accept: application/json
-Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
+Authorization: Bearer 1|nAQ4XBiBEsKYernl70G2ZH7UcdVeZhVlRgYzw2sK
 
 ### store
 POST /api/rooms
 Host: localhost
 Accept: application/json
 content-type: application/json
-Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
+Authorization: Bearer 1|nAQ4XBiBEsKYernl70G2ZH7UcdVeZhVlRgYzw2sK
 
 {
-    "title": "エアマックス 95",
-    "body": "1995年のランニングマックスモデル。",
+    "title": "APIテスト",
+    "body": "APIのbody",
     "joinUser": 2,
     "category_id": 5,
-    "userLimit": 4
+    "userLimit": 4,
+    "updated_at": "2021-11-20T05:38:31.000000Z"
 }
 
 
@@ -24,18 +25,18 @@ Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
 GET /api/rooms/3 HTTP/1.1
 Host: localhost
 Accept: application/json
-Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
+Authorization: Bearer 1|nAQ4XBiBEsKYernl70G2ZH7UcdVeZhVlRgYzw2sK
 
 ### update
 PUT /api/rooms/3
 Host: localhost
 Accept: application/json
 content-type: application/json
-Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
+Authorization: Bearer 1|nAQ4XBiBEsKYernl70G2ZH7UcdVeZhVlRgYzw2sK
 
 {
-    "title": "靴です",
-    "body": "2021年発売の靴です。",
+    "title": "編集しました",
+    "body": "編集BODY",
     "joinUser": 1,
     "category_id": 9,
     "userLimit": 8
@@ -46,4 +47,4 @@ Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
 DELETE /api/rooms/2 HTTP/1.1
 Host: localhost
 Accept: application/json
-Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
+Authorization: Bearer 1|nAQ4XBiBEsKYernl70G2ZH7UcdVeZhVlRgYzw2sK

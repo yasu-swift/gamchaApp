@@ -26,4 +26,4 @@ GET /api/user
 Host: localhost
 Accept: application/json
 content-type: application/json
-Authorization: Bearer 3|q4L0KaCoVzGXbVE3XuN3yrOIacATrVDypnmahVvV
+Authorization: Bearer 1|nAQ4XBiBEsKYernl70G2ZH7UcdVeZhVlRgYzw2sK

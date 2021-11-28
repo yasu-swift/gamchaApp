@@ -15,9 +15,17 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Room $room)
     {
         $comments = Comment::get();
+        $room->load('user');
+        // dd($room->user);
+        $comments = $room->comments()->
+        // latest()->
+        get();
+        // load('user');
+        // return $this->jsonResponse($comments);
+        $comments -> load('user');
         return $comments;
     }
 
@@ -30,7 +38,7 @@ class CommentController extends Controller
     public function store(CommentRequest $request, Room $room)
     {
         $comment = new Comment($request->all());
-        $comment->name = $request->user()->name;
+        // $comment->name = $request->user()->name;
         $comment->user_id = $request->user()->id;
         // $comment->room_id = $request->room_id;
 

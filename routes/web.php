@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -18,33 +19,28 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', [RoomController::class, 'index'])
-->name('root');
+    ->name('root');
 
+Route::resource('users', UserController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware('auth');
+
+Route::resource('users', UserController::class)
+    ->only(['show', 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource('rooms', RoomController::class)
-->only(['create', 'store', 'edit', 'update', 'destroy'])
-->middleware('auth');
+    ->middleware('auth')
+    ->only(['create', 'store', 'edit', 'update', 'destroy']);
 
 Route::resource('rooms', RoomController::class)
-->only(['show', 'index']);
+    ->only(['index', 'show']);
 
 Route::resource('rooms.comments', CommentController::class)
-->only(['create', 'store', 'edit', 'update', 'destroy'])
-->middleware('auth');
-
-
-
-//API
-// Auth::routes();
-
-// Route::get('/result/ajax', 'RoomController@getData');
-
-// Route::get('/home', 'RoomController@index')->name('home');
-
-// Route::post('/add', 'RoomController@index')->name('add');
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware('auth');
 
 require __DIR__ . '/auth.php';

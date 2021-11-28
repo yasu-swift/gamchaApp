@@ -23,6 +23,7 @@ class RoomController extends Controller
     public function index()
     {
         $rooms = Room::all();
+        $rooms->load('user');
         return $rooms;
     }
 

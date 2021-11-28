@@ -1,0 +1,19 @@
+### show
+GET /api/users/3 HTTP/1.1
+Host: localhost
+Accept: application/json
+Authorization: Bearer 1|nAQ4XBiBEsKYernl70G2ZH7UcdVeZhVlRgYzw2sK
+
+### update
+PUT /api/users/6
+Host: localhost
+Accept: application/json
+content-type: application/json
+Authorization: Bearer 1|nAQ4XBiBEsKYernl70G2ZH7UcdVeZhVlRgYzw2sK
+
+{
+    "name": "佐々木小次郎さん",
+    "likeGame": "ポケモンGO++s",
+    "profile": "最近は雪も降ってきたので家でゲームしてます",
+    "avatar": "20211125185218_0DFD945D-BF87-4861-B9E5-A4C6C5D02F12_1_105_c.jpeg"
+}

@@ -8,6 +8,7 @@ use App\Http\Requests\RoomRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
@@ -116,17 +117,17 @@ class RoomController extends Controller
      * @param  \App\Models\Room  $room
      * @return App\Http\Requests\RoomRequest;
      */
-    public function show(Room $room)
+    public function show(Room $room, User $user)
     {
 
         $room->load('user');
-        // dd($room->user);
+        // dd($room);
         $comments = $room->
         comments()->
         // latest()->
         get();
         // load('user');
-        return view('rooms.show', compact('room', 'comments'));
+        return view('rooms.show', compact('room', 'comments', 'user'));
     }
 
     /**

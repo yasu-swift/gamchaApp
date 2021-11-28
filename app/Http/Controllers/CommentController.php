@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Room;
 use App\Http\Requests\CommentRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\Break_;
@@ -35,8 +36,10 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::get();
-        return view('rooms.show', ['comments' => $comments]);
+        
+        // 新しい順に並べる
+        $rooms = Room::with('user')->latest()->paginate(4);
+        return view('rooms.show', compact('rooms', 'user'));
     }
 
     public function add(CommentRequest $request)
@@ -72,7 +75,7 @@ class CommentController extends Controller
     public function store(CommentRequest $request, Room $room)
     {
         $comment = new Comment($request->all());
-        $comment->name = $request->user()->name;
+        // $comment->name = $request->user()->name;
         $comment->user_id = $request->user()->id;
         // $comment->room_id = $request->room_id;
         // dd($request->comment->room_id);
@@ -101,9 +104,12 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show(Room $room)
     {
-        //
+        $room->load('user');
+        $comments = $room->comments()->latest()->get()->load(['user']);
+
+        return view('rooms.show', compact('room', 'comments'));
     }
 
     /**
